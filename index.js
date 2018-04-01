@@ -261,7 +261,7 @@ function addStockPortfolio(stockname, quant, gRes) {
 function listStocksPortfolio() {
   return new Promise(resolve => {
     let arr = []
-    ref.once(‘value’, function(snapshot) {
+    ref.once('value', function(snapshot) {
         snapshot.forEach(function(childSnapshot) {
             let data = childSnapshot.val();
             arr.push([data.stock, data.quantity]);

@@ -161,6 +161,7 @@ function hypotheticalPortfolio(body, gRes) {
   var co3 = body.result.parameters.any2 instanceof Array ? body.result.parameters.any2[0] : body.result.parameters.any2;
   var co4 = body.result.parameters.any3 instanceof Array ? body.result.parameters.any3[0] : body.result.parameters.any3;
   var posArg = co1+"~"+q1+"|"+co2+"~"+q2+"|"+co3+"~"+q3+"|"+co4+"~"+q4;
+  console.log("posArg",posArg);
   var options = {
     method: 'GET',
     url: 'https://www.blackrock.com/tools/hackathon/portfolio-analysis',

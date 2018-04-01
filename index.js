@@ -98,12 +98,26 @@ function compareTwoStocks(body,gRes) {
   console.log("company1 company2",company1,company2);
   var performance1 = 0;
   var performance2 = 0;
-  var url1 = "https://test3.blackrock.com/tools/hackathon/search-securities?filters=assetType%3AStock%2C%20countryCode%3AUS&queryField=description&query=" + company1;
-  request(url1, function (error1, response1, body1) {
+  var options1 = {
+    method: 'GET',
+    url: 'https://test3.blackrock.com/tools/hackathon/performance',
+    qs:
+     { identifiers: company1,
+       outputDataExpression: 'resultMap[\'RETURNS\'][0].latestPerf',
+     }
+  };
+  request(options1, function (error1, response1, body1) {
     performance1 =  (body1.oneDay * 100).toFixed(2);
     console.log("performance1",performance1);
-    var url2 = "https://test3.blackrock.com/tools/hackathon/search-securities?filters=assetType%3AStock%2C%20countryCode%3AUS&queryField=description&query=" + company2;
-    request(url2, function (error2, response2, body2) {
+    var options2 = {
+      method: 'GET',
+      url: 'https://test3.blackrock.com/tools/hackathon/performance',
+      qs:
+       { identifiers: company2,
+         outputDataExpression: 'resultMap[\'RETURNS\'][0].latestPerf',
+       }
+    };
+    request(options2, function (error2, response2, body2) {
       performance2 =  (body2.oneDay * 100).toFixed(2);
       console.log("performance2",performance2);
       var msg = "";

@@ -405,8 +405,9 @@ function isRiskyPortfolio(str) {
 		let res = false;
 		request(options, function (error, response, body) {
 		  if (error) throw new Error(error);
-      body = JSON.parse(body);
-		  let risk = body.resultMap.PORTFOLIOS[0].portfolios[0].returns.weightedAveragePerformance.rnrRiskScoreOverall;
+      console.log("response",response);
+      console.log("body",body);
+		  let risk = response.body.resultMap.PORTFOLIOS[0].portfolios[0].returns.weightedAveragePerformance.rnrRiskScoreOverall;
 		  if(risk > 0.2)
 		  	res = true;
 		  resolve(res);

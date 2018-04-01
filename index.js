@@ -32,14 +32,7 @@ server.post('/', function (req, res) {
     addStockPortfolio(req.body.result.parameters.any,req.body.result.parameters.number,res);
   }
   else if (req.body.result.action == 'listStocksPortfolio') {
-    (async function test(){
-    	let data = await listStocksPortfolio();
-      var msg = "Your portfolio currently contains: " + JSON.stringify(data);
-      return res.json({
-        speech: msg,
-        displayText: msg
-      });
-    })();
+    listStocksHelper(res);
   }
   else if (req.body.result.action == 'removeStockPortfolio') {
     removeStockPortfolio(req.body.result.parameters.any,res);
@@ -266,11 +259,47 @@ function addStockPortfolio(stockname, quant, gRes) {
 
 // read all stocks in database and output key-value pairs of strings/numbers
 function listStocksPortfolio() {
-	return new Promise(resolve => {
-		ref.once('value', function(snapshot) {
-			resolve(snapshot.val());
-		})
-	});
+  return new Promise(resolve => {
+    let arr = []
+    ref.once(‘value’, function(snapshot) {
+        snapshot.forEach(function(childSnapshot) {
+            let data = childSnapshot.val();
+            arr.push([data.stock, data.quantity]);
+        });
+        resolve(arr);
+    });
+  });
+}
+
+function listStocksHelper(gRes) {
+  (async function test(){
+    let data = await listStocksPortfolio();
+    stocksX = [];
+    stocksY = [];
+    for(var i = 0; i < data.length; i++) {
+      stocksX.push(data[i]["stock"]);
+      stocksY.push(data[i]["quantity"]);
+    }
+    var stocksData = [
+      {
+        x: stocksX,
+        y: sectorsY,
+        type: "bar"
+      }
+    ];
+    console.log("stocksX&Y",stocksX,stocksY);
+    var stocksLayout = {fileopt : "overwrite", filename : "stocksCt"};
+    plotly.plot(stocksData, stocksLayout, function (err, res) {
+      var stocksLink = res.url;
+      var msg = "Your portfolio has been visualized in the attached link."
+      return gRes.json({
+        speech: msg,
+        displayText: msg
+        imageUrl: stocksLink
+      });
+    });
+    // var msg = "Your portfolio currently contains: " + JSON.stringify(data);
+  })();
 }
 
 

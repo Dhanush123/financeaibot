@@ -294,7 +294,7 @@ function listStocksHelper(gRes) {
       var msg = "Your portfolio has been visualized in the attached link."
       return gRes.json({
         speech: msg,
-        displayText: msg
+        displayText: msg,
         imageUrl: stocksLink
       });
     });

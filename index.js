@@ -40,6 +40,9 @@ server.post('/', function (req, res) {
   else if (req.body.result.action == 'updateStockPortfolio') {
     updateStockPortfolio(req.body.result.parameters.any,req.body.result.parameters.number,res);
   }
+  else if (req.body.result.action == 'getIVV') {
+    getIVV(res);
+  }
   else {
     var speech = "An error has occured...";
     return res.json({
@@ -334,6 +337,50 @@ function removeStockPortfolio(stockname,gRes) {
   return gRes.json({
     speech: msg,
     displayText: msg
+  });
+}
+
+function getIVV(gRes) {
+  var options = { method: 'GET',
+    url: 'https://test3.blackrock.com/tools/hackathon/performance',
+    qs: { identifiers: 'IVV' }
+  };
+
+  request(options, function (error, response, body) {
+    body = JSON.parse(body);
+    var hRDate = " ";
+    hRDate = body.resultMap.RETURNS[0].highReturnDate+"";
+    hRDate = hRDate.substring(4,6) + "/" + hRDate.substring(6,8) + "/" + hRDate.substring(0, 4);
+    var perUp = (body.resultMap.RETURNS[0].upMonthsPercent * 100).toFixed(2);
+    var analysis = "The IVV ETF:\n"+"- Had its higest return day on "+hRDate+"\n- "+"Out of the last "+body.resultMap.RETURNS[0].totalMonths + ", " + perUp + "% were up months.";
+    var relData = body.resultMap["RETURNS"][0].returnsMap;
+    var ivvX = [];
+    var ivvY = [];
+    for(var i = 0; i < relData.length; i++) {
+      if (relData[i]["oneMonth"]) {
+        ivvY.push(relData[i]["oneMonth"]);
+      }
+    }
+    for(var i = 0; i < ivvY.length; i++) {
+      ivvX.push(i);
+    }
+    var ivvData = [{
+        x: ivvX,
+        y: ivvY,
+        mode: "lines+markers",
+        line: {shape: "spline"},
+        type: "scatter"
+    }];
+    var ivvLayout = {fileopt : "overwrite", filename : "ivvLine"};
+    plotly.plot(ivvData, ivvLayout, function (err, res) {
+      var ivvLink = res.url;
+      console.log("stocksLink",stocksLink);
+      var msg = analysis + " Its performance has been visualized here: " + ivvLink;
+      return gRes.json({
+        speech: msg,
+        displayText: msg
+      });
+    });
   });
 }
 

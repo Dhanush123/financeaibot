@@ -374,7 +374,7 @@ function getIVV(gRes) {
     var ivvLayout = {fileopt : "overwrite", filename : "ivvLine"};
     plotly.plot(ivvData, ivvLayout, function (err, res) {
       var ivvLink = res.url;
-      console.log("stocksLink",stocksLink);
+      console.log("ivvLink",ivvLink);
       var msg = analysis + " Its performance has been visualized here: " + ivvLink;
       return gRes.json({
         speech: msg,

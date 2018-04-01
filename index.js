@@ -2,6 +2,8 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const request = require('request');
+const plotly = require('plotly')("dhanush123", "gVZtNUCSRa0ejAf5SUfM");
+
 
 const server = express();
 server.use(bodyParser.json());
@@ -14,6 +16,9 @@ server.post('/', function (req, res) {
   }
   else if (req.body.result.action == 'compareTwoStocks') {
     compareTwoStocks(req.body,res);
+  }
+  else if (req.body.result.action == 'hypotheticalPortfolio') {
+    hypotheticalPortfolio(req.body,res);
   }
   else {
     var speech = "An error has occured...";
@@ -93,8 +98,8 @@ function singleStockHelper(company,previousClosePrice,peRatio,gRes) {
 }
 
 function compareTwoStocks(body,gRes) {
-  var company1 = body.result.parameters.any1;
-  var company2 = body.result.parameters.any2[0];
+  var company1 = body.result.parameters.any1 instanceof Array ? body.result.parameters.any1[0] else body.result.parameters.any1;
+  var company2 = body.result.parameters.any2 instanceof Array ? body.result.parameters.any2[0] else body.result.parameters.any2;
   console.log(company1,company2);
   var performance1 = 0;
   var performance2 = 0;
@@ -142,6 +147,74 @@ function twoStocksHelper(company1,company2,performance1,performance2,gRes) {
     return gRes.json({
       speech: msg,
       displayText: msg
+    });
+  });
+}
+
+function hypotheticalPortfolio(body, gRes) {
+  var q1 = body.results.parameters.number instanceof Array ? body.results.parameters.number[0] else body.results.parameters.number;
+  var q2 = body.results.parameters.number1 instanceof Array ? body.results.parameters.number1[0] else body.results.parameters.number1;
+  var q3 = body.results.parameters.number2 instanceof Array ? body.results.parameters.number2[0] else body.results.parameters.number2;
+  var q4 = body.results.parameters.number3 instanceof Array ? body.results.parameters.number3[0] else body.results.parameters.number3;
+  var co1 = body.results.parameters.any instanceof Array ? body.results.parameters.any[0] else body.results.parameters.number;
+  var co2 = body.results.parameters.any1 instanceof Array ? body.results.parameters.any1[0] else body.results.parameters.any1;
+  var co3 = body.results.parameters.any2 instanceof Array ? body.results.parameters.any2[0] else body.results.parameters.any2;
+  var co4 = body.results.parameters.any3 instanceof Array ? body.results.parameters.any3[0] else body.results.parameters.any3;
+  var posArg = co1+"~"+q1+"|"+co2+"~"+q2+"|"+co3+"~"+q3+"|"+co4+"~"+q4;
+  var options = {
+    method: 'GET',
+    url: 'https://www.blackrock.com/tools/hackathon/portfolio-analysis',
+    qs:
+     { positions: posArg,
+       calculateRisk: 'true',
+       currency: 'USD' }
+  };
+  request(options, function (error, response, body) {
+    body = JSON.parse(body);
+    var countries = body.resultMap.PORTFOLIOS[0].portfolios[0].exposures.bespokeBreakdowns.country; //this is an array
+    var sectors = body.resultMap.PORTFOLIOS[0].portfolios[0].exposures.sectors; ///this is an array
+    var countriesX = [];
+    var countriesY = [];
+    var sectorsX = [];
+    var sectorsY = [];
+    for(var i = 0; i < countries.length; i++) {
+      countriesX.push(countries[i].name);
+      countriesY.push(countries[i].y);
+    }
+    for(var i = 0; i < sectors.length; i++) {
+      sectorsX.push(sectors[i].name);
+      sectorsY.push(sectors[i].y);
+    }
+    var countriesData = [
+      {
+        x: countriesX,
+        y: countriesY,
+        type: "bar"
+      }
+    ];
+    var sectorsData = [
+      {
+        x: sectorsX,
+        y: sectorsY,
+        type: "bar"
+      }
+    ];
+    var countriesLayout = {fileopt : "overwrite", filename : "countriesDiv"};
+    var sectorsLayout = {fileopt : "overwrite", filename : "sectorsDiv"};
+    var countriesLink = "";
+    var sectorsLink = "";
+    plotly.plot(countriesData, countriesLayout, function (err, msg1) {
+    	countriesLink = msg1;
+      plotly.plot(sectorsData, sectorsLayout, function (err, msg2) {
+        sectorsLink = msg2;
+        var msg = "Here's a breakdown of countries in your hypothetical portfolio: " + countriesLink +"\n";
+        msg += "Here's a breakdown of sectors in your hypothetical portfolio: " + sectorsLink;
+        console.log("msg w/ plotly",msg);
+        return gRes.json({
+          speech: msg,
+          displayText: msg
+        });
+      });
     });
   });
 }

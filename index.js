@@ -415,10 +415,10 @@ function isRiskyPortfolio(str) {
 
 function makeString() {
     return new Promise(resolve => {
-        let str = “”
-        let sum = 0
-        let count = 0
-        ref.once(‘value’, function(snapshot) {
+        let str = "";
+        let sum = 0;
+        let count = 0;
+        ref.once("value", function(snapshot) {
             snapshot.forEach(function(childSnapshot) {
                 let data = childSnapshot.val();
                 sum += data.quantity;
@@ -427,7 +427,7 @@ function makeString() {
             let extraEach = (100 - sum) / count;
             snapshot.forEach(function(childSnapshot) {
                 let data = childSnapshot.val();
-                str += data.stock + “~” + (data.quantity + extraEach).toString() + “|”
+                str += data.stock + "~" + (data.quantity + extraEach).toString() + "|"
             })
             str = str.substr(0, str.length - 1);
             resolve(str);

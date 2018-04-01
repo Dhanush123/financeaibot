@@ -13,7 +13,7 @@ server.post('/', function (req, res) {
     getSingleStock(req.body,res);
   }
   else if (req.body.result.action == 'compareTwoStocks') {
-    getSingleStock(req.body,res);
+    compareTwoStocks(req.body,res);
   }
   else {
     var speech = "An error has occured...";

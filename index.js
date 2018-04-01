@@ -12,6 +12,9 @@ server.post('/', function (req, res) {
   if (req.body.result.action == 'getSingleStock') {
     getSingleStock(req.body,res);
   }
+  else if (req.body.result.action == 'compareTwoStocks') {
+    getSingleStock(req.body,res);
+  }
   else {
     var speech = "An error has occured...";
     return res.json({
@@ -86,6 +89,18 @@ function singleStockHelper(company,previousClosePrice,peRatio,gRes) {
         displayText: msg
       });
     }
+  });
+}
+
+function compareTwoStocks(body,gRes) {
+  var company1 = body.result.parameters.any1;
+  var company2 = body.result.parameters.any2;
+  var url1 = "https://test3.blackrock.com/tools/hackathon/search-securities?filters=assetType%3AStock%2C%20countryCode%3AUS&queryField=description&query=" + company1;
+  request(url1, function (error, response, body) {
+    return gRes.json({
+      speech: "can do it!!!",
+      displayText: "can do it!!!"
+    });
   });
 }
 

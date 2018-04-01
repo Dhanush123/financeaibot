@@ -31,8 +31,8 @@ function getSingleStock (body, gRes) {
   request(options, function (error, response, body) {
     body = JSON.parse(body);
     console.log("1st single stock call",body.resultMap.SEARCH_RESULTS[0].resultList);
-    var peRatio = body.resultMap.SEARCH_RESULTS[0].resultList[1].peRatio;
-    var previousClosePrice = body.resultMap.SEARCH_RESULTS[0].resultList[1].previousClosePrice;
+    var peRatio = body.resultMap.SEARCH_RESULTS[0].resultList[0].peRatio;
+    var previousClosePrice = body.resultMap.SEARCH_RESULTS[0].resultList[0].previousClosePrice;
     console.log("peRatio",peRatio);
     console.log("previousClosePrice",previousClosePrice);
     singleStockHelper(company,previousClosePrice,peRatio,gRes);

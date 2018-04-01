@@ -276,7 +276,6 @@ function listStocksHelper(gRes) {
     let data = await listStocksPortfolio();
     var stocksX = [];
     var stocksY = [];
-    console.log("data",data);
     for(var i = 0; i < data.length; i++) {
       stocksX.push(data[i][0]);
       stocksY.push(data[i][1]);
@@ -293,7 +292,7 @@ function listStocksHelper(gRes) {
     plotly.plot(stocksData, stocksLayout, function (err, res) {
       var stocksLink = res.url;
       console.log("stocksLink",stocksLink);
-      var msg = "Your portfolio has been visualized here: " + stocksUrl;
+      var msg = "Your portfolio has been visualized here: " + stocksLink;
       return gRes.json({
         speech: msg,
         displayText: msg

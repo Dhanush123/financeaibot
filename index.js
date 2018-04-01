@@ -364,12 +364,6 @@ function getIVV(gRes) {
         ivvY.push(relData[""+day]["oneMonth"]);
       }
     }
-    // var objectKeysArray = Object.keys(relData);
-    // objectKeysArray.forEach(function(objKey) {
-    //     var objValue = relData[objKey];
-    //     ivvY.push(objValue);
-    //   }
-    // })
     for(var i = 0; i < ivvY.length; i++) {
       ivvX.push(i);
     }

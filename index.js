@@ -21,7 +21,7 @@ server.post('/', function (req, res) {
 });
 
 function getSingleStock (body, gRes) {
-  var company = body.parameters.any;
+  var company = body.result.parameters.any;
   var options = { method: 'GET',
     url: 'https://www.blackrock.com/tools/hackathon/search-securities',
     qs: { identifiers: company }};

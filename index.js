@@ -156,7 +156,7 @@ function hypotheticalPortfolio(body, gRes) {
   var q2 = body.result.parameters.number1 instanceof Array ? body.result.parameters.number1[0] : body.result.parameters.number1;
   var q3 = body.result.parameters.number2 instanceof Array ? body.result.parameters.number2[0] : body.result.parameters.number2;
   var q4 = body.result.parameters.number3 instanceof Array ? body.result.parameters.number3[0] : body.result.parameters.number3;
-  var co1 = body.result.parameters.any instanceof Array ? body.result.parameters.any[0] : body.result.parameters.number;
+  var co1 = body.result.parameters.any instanceof Array ? body.result.parameters.any[0] : body.result.parameters.any;
   var co2 = body.result.parameters.any1 instanceof Array ? body.result.parameters.any1[0] : body.result.parameters.any1;
   var co3 = body.result.parameters.any2 instanceof Array ? body.result.parameters.any2[0] : body.result.parameters.any2;
   var co4 = body.result.parameters.any3 instanceof Array ? body.result.parameters.any3[0] : body.result.parameters.any3;

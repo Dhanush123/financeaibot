@@ -406,14 +406,11 @@ function isRiskyPortfolio(str) {
 		request(options, function (error, response, body) {
 		  if (error) throw new Error(error);
       console.log("response",response);
-		  let risk = body.resultMap["PORTFOLIOS"][0].portfolios[0].returns.weightedAveragePerformance.rnrRiskScoreOverall;
-      if(!risk) {
+      if(!body.resultMap["PORTFOLIOS"][0].portfolios[0].returns.weightedAveragePerformance.rnrRiskScoreOverall) {
         let num = Math.floor(Math.random() * 10);
         if(num < 3)
           res = true;
       }
-      else if(risk > 0.2)
-		  	res = true;
 		  resolve(res);
 		});
 	})

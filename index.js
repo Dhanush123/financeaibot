@@ -276,6 +276,7 @@ function listStocksHelper(gRes) {
     let data = await listStocksPortfolio();
     var stocksX = [];
     var stocksY = [];
+    console.log("data",data);
     for(var i = 0; i < data.length; i++) {
       stocksX.push(data[i]["stock"]);
       stocksY.push(data[i]["quantity"]);

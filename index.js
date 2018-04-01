@@ -359,8 +359,9 @@ function getIVV(gRes) {
     var ivvY = [];
     for (var day in relData) {
       console.log("day-->",day);
-      if (day["oneMonth"]) {
-        ivvY.push(day["oneMonth"]);
+      if (relData.day["oneMonth"]) {
+        console.log("oneMonth val",relData.day["oneMonth"]);
+        ivvY.push(relData.day["oneMonth"]);
       }
     }
     // var objectKeysArray = Object.keys(relData);

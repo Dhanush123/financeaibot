@@ -353,14 +353,21 @@ function getIVV(gRes) {
     hRDate = hRDate.substring(4,6) + "/" + hRDate.substring(6,8) + "/" + hRDate.substring(0, 4);
     var perUp = (body.resultMap.RETURNS[0].upMonthsPercent * 100).toFixed(2);
     var analysis = "The IVV ETF:\n"+"- Had its higest return day on "+hRDate+"\n- "+"Out of the last "+body.resultMap.RETURNS[0].totalMonths + ", " + perUp + "% were up months.";
-    var relData = body.resultMap["RETURNS"][0].returnsMap;
+    var relData = body.resultMap.RETURNS[0].returnsMap;
+    console.log("ivv data",relData);
     var ivvX = [];
     var ivvY = [];
-    for(var i = 0; i < relData.length; i++) {
-      if (relData[i]["oneMonth"]) {
-        ivvY.push(relData[i]["oneMonth"]);
+    for (day in relData) {
+      if (day["oneMonth"]) {
+        ivvY.push(day["oneMonth"]);
       }
     }
+    // var objectKeysArray = Object.keys(relData);
+    // objectKeysArray.forEach(function(objKey) {
+    //     var objValue = relData[objKey];
+    //     ivvY.push(objValue);
+    //   }
+    // })
     for(var i = 0; i < ivvY.length; i++) {
       ivvX.push(i);
     }

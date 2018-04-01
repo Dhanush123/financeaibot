@@ -96,10 +96,22 @@ function compareTwoStocks(body,gRes) {
   var company1 = body.result.parameters.any1;
   var company2 = body.result.parameters.any2;
   var url1 = "https://test3.blackrock.com/tools/hackathon/search-securities?filters=assetType%3AStock%2C%20countryCode%3AUS&queryField=description&query=" + company1;
-  request(url1, function (error, response, body) {
-    return gRes.json({
-      speech: "can do it!!!",
-      displayText: "can do it!!!"
+  request(url1, function (error, response, body1) {
+    var performance1 =  (body1.oneDay * 100).toFixed(2);
+    var url2 = "https://test3.blackrock.com/tools/hackathon/search-securities?filters=assetType%3AStock%2C%20countryCode%3AUS&queryField=description&query=" + company2;
+    request(url2, function (error2, response2, body2) {
+      var performance2 =  (body2.oneDay * 100).toFixed(2);
+      var msg = "";
+      if(performance2 > performance1){
+        msg = company2 + " at " + performace2 +"%" + " is doing better than " + company1 + " by " + (performance2-performance1) + "%.";
+      }
+      else {
+        msg = company1 + " at " + performace1 +"%" + " is doing better than " + company2 + " by " + (performance1-performance2) + "%.";
+      }
+      return gRes.json({
+        speech: msg,
+        displayText: msg
+      });
     });
   });
 }

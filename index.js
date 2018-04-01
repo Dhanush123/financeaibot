@@ -104,7 +104,7 @@ function compareTwoStocks(body,gRes) {
     qs:
      { identifiers: company1,
        outputDataExpression: 'resultMap[\'RETURNS\'][0].latestPerf',
-       useCache: 'true' 
+       useCache: 'true'
      }
   };
   request(options1, function (error1, response1, body1) {
@@ -112,31 +112,36 @@ function compareTwoStocks(body,gRes) {
     console.log("body1",body1);
     performance1 =  (body1.oneDay * 100).toFixed(2);
     console.log("performance1",performance1);
-    var options2 = {
-      method: 'GET',
-      url: 'https://test3.blackrock.com/tools/hackathon/performance',
-      qs:
-       { identifiers: company2,
-         outputDataExpression: 'resultMap[\'RETURNS\'][0].latestPerf',
-         useCache: 'true'
-       }
-    };
-    request(options2, function (error2, response2, body2) {
-      body2 = JSON.parse(body2);
-      console.log("body2",body2);
-      performance2 =  (body2.oneDay * 100).toFixed(2);
-      console.log("performance2",performance2);
-      var msg = "";
-      if(performance2 > performance1){
-        msg = company2 + " at " + performance2 +"%" + " is doing better than " + company1 + " by " + (performance2-performance1) + "%.";
-      }
-      else {
-        msg = company1 + " at " + performance1 +"%" + " is doing better than " + company2 + " by " + (performance1-performance2) + "%.";
-      }
-      return gRes.json({
-        speech: msg,
-        displayText: msg
-      });
+    twoStocksHelper(company1,company2,performance1,performance2,gRes);
+  });
+}
+
+function twoStocksHelper(company1,company2,performance1,performance2,gRes) {
+  console.log("inside twoStocksHelper");
+  var options2 = {
+    method: 'GET',
+    url: 'https://test3.blackrock.com/tools/hackathon/performance',
+    qs:
+     { identifiers: company2,
+       outputDataExpression: 'resultMap[\'RETURNS\'][0].latestPerf',
+       useCache: 'true'
+     }
+  };
+  request(options2, function (error2, response2, body2) {
+    body2 = JSON.parse(body2);
+    console.log("body2",body2);
+    performance2 =  (body2.oneDay * 100).toFixed(2);
+    console.log("performance2",performance2);
+    var msg = "";
+    if(performance2 > performance1){
+      msg = company2 + " at " + performance2 +"%" + " is doing better than " + company1 + " by " + (performance2-performance1) + "%.";
+    }
+    else {
+      msg = company1 + " at " + performance1 +"%" + " is doing better than " + company2 + " by " + (performance1-performance2) + "%.";
+    }
+    return gRes.json({
+      speech: msg,
+      displayText: msg
     });
   });
 }

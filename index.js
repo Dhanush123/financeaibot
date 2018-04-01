@@ -405,12 +405,12 @@ function isRiskyPortfolio(str) {
 		let res = false;
 		request(options, function (error, response, body) {
 		  if (error) throw new Error(error);
-      console.log("response",response);
-      if(!body.resultMap["PORTFOLIOS"][0].portfolios[0].returns.weightedAveragePerformance.rnrRiskScoreOverall) {
-        let num = Math.floor(Math.random() * 10);
-        if(num < 3)
-          res = true;
-      }
+      // console.log("response",response);
+      // if(!body.resultMap["PORTFOLIOS"][0].portfolios[0].returns.weightedAveragePerformance.rnrRiskScoreOverall) {
+      //   let num = Math.floor(Math.random() * 10);
+      //   if(num < 3)
+      //     res = true;
+      // }
 		  resolve(res);
 		});
 	})

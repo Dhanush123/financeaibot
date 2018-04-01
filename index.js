@@ -104,6 +104,7 @@ function compareTwoStocks(body,gRes) {
     qs:
      { identifiers: company1,
        outputDataExpression: 'resultMap[\'RETURNS\'][0].latestPerf',
+       useCache: 'true' 
      }
   };
   request(options1, function (error1, response1, body1) {
@@ -117,6 +118,7 @@ function compareTwoStocks(body,gRes) {
       qs:
        { identifiers: company2,
          outputDataExpression: 'resultMap[\'RETURNS\'][0].latestPerf',
+         useCache: 'true'
        }
     };
     request(options2, function (error2, response2, body2) {

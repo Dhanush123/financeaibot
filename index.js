@@ -273,18 +273,27 @@ function listStocksPortfolio() {
 	});
 }
 
+
 // update: update quantity of stock
 function updateStockPortfolio(stockname, quant,gRes) {
-	var stockref = ref.child(stockname);
-	stockref.set({
-		stock: stockname,
-		quantity: quant
-	})
-  var msg = quant + " " + stockname + " shares added to your portfolio!";
-  return gRes.json({
-    speech: msg,
-    displayText: msg
-  });
+    var stockref = ref.child(stockname);
+    var prevQuant = 0;
+    ref.once(‘value’, function(snapshot) {
+        snapshot.forEach(function(childSnapshot) {
+            let data = childSnapshot.val();
+            if(stockname == data.stock) {
+                stockref.set({
+                    stock: stockname,
+                    quantity: quant + data.quantity
+                });
+                var msg = quant + " " + stockname + " shares added to your portfolio!";
+                return gRes.json({
+                  speech: msg,
+                  displayText: msg
+                });
+            }
+        })
+    })
 }
 
 // delete: delete field

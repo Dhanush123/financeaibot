@@ -98,8 +98,8 @@ function singleStockHelper(company,previousClosePrice,peRatio,gRes) {
 }
 
 function compareTwoStocks(body,gRes) {
-  var company1 = body.result.parameters.any1 instanceof Array ? body.result.parameters.any1[0] else body.result.parameters.any1;
-  var company2 = body.result.parameters.any2 instanceof Array ? body.result.parameters.any2[0] else body.result.parameters.any2;
+  var company1 = body.result.parameters.any1 instanceof Array ? body.result.parameters.any1[0] : body.result.parameters.any1;
+  var company2 = body.result.parameters.any2 instanceof Array ? body.result.parameters.any2[0] : body.result.parameters.any2;
   console.log(company1,company2);
   var performance1 = 0;
   var performance2 = 0;
@@ -152,14 +152,14 @@ function twoStocksHelper(company1,company2,performance1,performance2,gRes) {
 }
 
 function hypotheticalPortfolio(body, gRes) {
-  var q1 = body.results.parameters.number instanceof Array ? body.results.parameters.number[0] else body.results.parameters.number;
-  var q2 = body.results.parameters.number1 instanceof Array ? body.results.parameters.number1[0] else body.results.parameters.number1;
-  var q3 = body.results.parameters.number2 instanceof Array ? body.results.parameters.number2[0] else body.results.parameters.number2;
-  var q4 = body.results.parameters.number3 instanceof Array ? body.results.parameters.number3[0] else body.results.parameters.number3;
-  var co1 = body.results.parameters.any instanceof Array ? body.results.parameters.any[0] else body.results.parameters.number;
-  var co2 = body.results.parameters.any1 instanceof Array ? body.results.parameters.any1[0] else body.results.parameters.any1;
-  var co3 = body.results.parameters.any2 instanceof Array ? body.results.parameters.any2[0] else body.results.parameters.any2;
-  var co4 = body.results.parameters.any3 instanceof Array ? body.results.parameters.any3[0] else body.results.parameters.any3;
+  var q1 = body.results.parameters.number instanceof Array ? body.results.parameters.number[0] : body.results.parameters.number;
+  var q2 = body.results.parameters.number1 instanceof Array ? body.results.parameters.number1[0] : body.results.parameters.number1;
+  var q3 = body.results.parameters.number2 instanceof Array ? body.results.parameters.number2[0] : body.results.parameters.number2;
+  var q4 = body.results.parameters.number3 instanceof Array ? body.results.parameters.number3[0] : body.results.parameters.number3;
+  var co1 = body.results.parameters.any instanceof Array ? body.results.parameters.any[0] : body.results.parameters.number;
+  var co2 = body.results.parameters.any1 instanceof Array ? body.results.parameters.any1[0] : body.results.parameters.any1;
+  var co3 = body.results.parameters.any2 instanceof Array ? body.results.parameters.any2[0] : body.results.parameters.any2;
+  var co4 = body.results.parameters.any3 instanceof Array ? body.results.parameters.any3[0] : body.results.parameters.any3;
   var posArg = co1+"~"+q1+"|"+co2+"~"+q2+"|"+co3+"~"+q3+"|"+co4+"~"+q4;
   var options = {
     method: 'GET',

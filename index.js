@@ -211,9 +211,10 @@ function hypotheticalPortfolio(body, gRes) {
     	countriesLink = msg1.url;
       plotly.plot(sectorsData, sectorsLayout, function (err, msg2) {
         sectorsLink = msg2.url;
-        var msg = "Breakdown by country: " + countriesLink + " Breakdown by sector: " + sectorsLink;
-        msg = msg.replace("https://","");
-        console.log("msg w/ plotly",msg);
+        // var msg = "Breakdown by country: " + countriesLink + " Breakdown by sector: " + sectorsLink;
+        // msg = msg.replace("https://","");
+        // console.log("msg w/ plotly",msg);
+        var msg = "does this work without links???";
         return gRes.json({
           speech: msg,
           displayText: msg

@@ -278,7 +278,7 @@ function listStocksPortfolio() {
 function updateStockPortfolio(stockname, quant,gRes) {
     var stockref = ref.child(stockname);
     var prevQuant = 0;
-    ref.once(‘value’, function(snapshot) {
+    ref.once('value', function(snapshot) {
         snapshot.forEach(function(childSnapshot) {
             let data = childSnapshot.val();
             if(stockname == data.stock) {

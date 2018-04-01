@@ -274,8 +274,8 @@ function listStocksPortfolio() {
 function listStocksHelper(gRes) {
   (async function test(){
     let data = await listStocksPortfolio();
-    stocksX = [];
-    stocksY = [];
+    var stocksX = [];
+    var stocksY = [];
     for(var i = 0; i < data.length; i++) {
       stocksX.push(data[i]["stock"]);
       stocksY.push(data[i]["quantity"]);
@@ -283,7 +283,7 @@ function listStocksHelper(gRes) {
     var stocksData = [
       {
         x: stocksX,
-        y: sectorsY,
+        y: stocksY,
         type: "bar"
       }
     ];

@@ -354,10 +354,11 @@ function getIVV(gRes) {
     var perUp = (body.resultMap.RETURNS[0].upMonthsPercent * 100).toFixed(2);
     var analysis = "The IVV ETF:\n"+"- Had its higest return day on "+hRDate+"\n- "+"Out of the last "+body.resultMap.RETURNS[0].totalMonths + ", " + perUp + "% were up months.";
     var relData = body.resultMap.RETURNS[0].returnsMap;
-    console.log("ivv data",relData);
+    // console.log("ivv data",relData);
     var ivvX = [];
     var ivvY = [];
     for (var day in relData) {
+      console.log("day-->",day);
       if (day["oneMonth"]) {
         ivvY.push(day["oneMonth"]);
       }

@@ -43,6 +43,9 @@ server.post('/', function (req, res) {
   else if (req.body.result.action == 'getIVV') {
     getIVV(res);
   }
+  else if (req.body.result.action == "isRiskyPortfolio") {
+    isRiskyPortfolioHelper(res);
+  }
   else {
     var speech = "An error has occured...";
     return res.json({
@@ -385,6 +388,67 @@ function getIVV(gRes) {
       });
     });
   });
+}
+
+// formatted string like BLK~25|AAPL~25|IXN~25|MALOX~25
+function isRiskyPortfolio(str) {
+	var request = require("request");
+
+	var options = { method: 'GET',
+	  url: 'https://www.blackrock.com/tools/hackathon/portfolio-analysis',
+	  qs: { positions: str },
+	  headers:
+	   { 'Content-Type': 'application/json' },
+	  json: true };
+
+	return new Promise(resolve => {
+		let res = false;
+		request(options, function (error, response, body) {
+		  if (error) throw new Error(error);
+		  let risk = response.body.resultMap.PORTFOLIOS[0].portfolios[0].returns.weightedAveragePerformance.rnrRiskScoreOverall;
+		  if(risk > 0.2)
+		  	res = true;
+		  resolve(res);
+		});
+	})
+}
+
+function makeString() {
+    return new Promise(resolve => {
+        let str = “”
+        let sum = 0
+        let count = 0
+        ref.once(‘value’, function(snapshot) {
+            snapshot.forEach(function(childSnapshot) {
+                let data = childSnapshot.val();
+                sum += data.quantity;
+                count += 1
+            });
+            let extraEach = (100 - sum) / count;
+            snapshot.forEach(function(childSnapshot) {
+                let data = childSnapshot.val();
+                str += data.stock + “~” + (data.quantity + extraEach).toString() + “|”
+            })
+            str = str.substr(0, str.length - 1);
+            resolve(str);
+        })
+    });
+}
+
+function isRiskyPortfolioHelper(gRes) {
+  (async function test(){
+    let str = await makeString();
+    let msg = "Currently, your portfolio is ";
+    let isRisky = await isRiskyPortfolio(str);
+    if(isRisky)
+      msg += "risky. Consider diversifying your portfolio a bit more.";
+    else
+      msg += "not risky. You're doing fine right now!";
+    return gRes.json({
+      speech: msg,
+      displayText: msg
+    });
+  })();
 }
 
 server.listen((process.env.PORT || 8000), function () {

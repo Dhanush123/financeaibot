@@ -172,8 +172,9 @@ function hypotheticalPortfolio(body, gRes) {
   };
   request(options, function (error, response, body) {
     body = JSON.parse(body);
-    var countries = body.resultMap.PORTFOLIOS[0].portfolios[0].exposures.bespokeBreakdowns.country; //this is an array
-    var sectors = body.resultMap.PORTFOLIOS[0].portfolios[0].exposures.sectors; ///this is an array
+    console.log("portfolios",body.resultMap["PORTFOLIOS"]);
+    var countries = body.resultMap["PORTFOLIOS"][0].portfolios[0].exposures.bespokeBreakdowns.country; //this is an array
+    var sectors = body.resultMap["PORTFOLIOS"][0].portfolios[0].exposures.sectors; ///this is an array
     var countriesX = [];
     var countriesY = [];
     var sectorsX = [];

@@ -107,6 +107,8 @@ function compareTwoStocks(body,gRes) {
      }
   };
   request(options1, function (error1, response1, body1) {
+    body1 = JSON.parse(body1);
+    console.log("body1",body1);
     performance1 =  (body1.oneDay * 100).toFixed(2);
     console.log("performance1",performance1);
     var options2 = {
@@ -118,6 +120,8 @@ function compareTwoStocks(body,gRes) {
        }
     };
     request(options2, function (error2, response2, body2) {
+      body2 = JSON.parse(body2);
+      console.log("body2",body2);
       performance2 =  (body2.oneDay * 100).toFixed(2);
       console.log("performance2",performance2);
       var msg = "";

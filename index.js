@@ -292,8 +292,8 @@ function updateStockPortfolio(stockname, quant,gRes) {
                   displayText: msg
                 });
             }
-        })
-    })
+        });
+    });
 }
 
 // delete: delete field

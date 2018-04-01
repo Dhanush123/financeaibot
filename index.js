@@ -50,23 +50,42 @@ function singleStockHelper(company,previousClosePrice,peRatio,gRes) {
   };
 
   request(options, function (error, response, body) {
-    var msg = company + "'s stock";
-    msg += " has a previous close price of " + previousClosePrice;
-    body = JSON.parse(body);
-    var performance = (body.oneDay * 100).toFixed(2);
-    console.log("performance",performance);
-    if (performance < 0) {
-        msg += " and decreased by ";
-    } else {
-        msg += " and went up by ";
+    if (previousClosePrice && peRatio) {
+      var msg = company + "'s stock";
+      msg += " has a previous close price of " + previousClosePrice;
+      body = JSON.parse(body);
+      var performance = (body.oneDay * 100).toFixed(2);
+      console.log("performance",performance);
+      if (performance < 0) {
+          msg += " and decreased by ";
+      } else {
+          msg += " and went up by ";
+      }
+      msg += Math.abs(performance) + "%.";
+      msg += " Its P/E ratio is " + peRatio;
+      console.log("msg",msg);
+      return gRes.json({
+        speech: msg,
+        displayText: msg
+      });
     }
-    msg += Math.abs(performance) + "%.";
-    msg += " Its P/E ratio is " + peRatio;
-    console.log("msg",msg);
-    return gRes.json({
-      speech: msg,
-      displayText: msg
-    });
+    else {
+      var msg = company + "'s stock";
+      body = JSON.parse(body);
+      var performance = (body.oneDay * 100).toFixed(2);
+      console.log("performance",performance);
+      if (performance < 0) {
+          msg += " decreased by ";
+      } else {
+          msg += " went up by ";
+      }
+      msg += Math.abs(performance) + "%.";
+      console.log("msg",msg);
+      return gRes.json({
+        speech: msg,
+        displayText: msg
+      });
+    }
   });
 }
 

@@ -208,11 +208,9 @@ function hypotheticalPortfolio(body, gRes) {
     var countriesLink = "";
     var sectorsLink = "";
     plotly.plot(countriesData, countriesLayout, function (err, msg1) {
-      console.log(JSON.stringify(msg1));
-    	countriesLink = msg1;
+    	countriesLink = msg1.url;
       plotly.plot(sectorsData, sectorsLayout, function (err, msg2) {
-        console.log(JSON.stringify(msg2));
-        sectorsLink = msg2;
+        sectorsLink = msg2.url;
         var msg = "Here's a breakdown of countries in your hypothetical portfolio: " + countriesLink +"\n";
         msg += "Here's a breakdown of sectors in your hypothetical portfolio: " + sectorsLink;
         console.log("msg w/ plotly",msg);

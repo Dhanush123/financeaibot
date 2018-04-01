@@ -292,14 +292,13 @@ function listStocksHelper(gRes) {
     var stocksLayout = {fileopt : "overwrite", filename : "stocksCt"};
     plotly.plot(stocksData, stocksLayout, function (err, res) {
       var stocksLink = res.url;
-      var msg = "Your portfolio has been visualized in the attached link."
+      console.log("stocksLink",stocksLink);
+      var msg = "Your portfolio has been visualized here: " + stocksUrl;
       return gRes.json({
         speech: msg,
-        displayText: msg,
-        imageUrl: stocksLink
+        displayText: msg
       });
     });
-    // var msg = "Your portfolio currently contains: " + JSON.stringify(data);
   })();
 }
 

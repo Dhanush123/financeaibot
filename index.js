@@ -357,7 +357,7 @@ function getIVV(gRes) {
     console.log("ivv data",relData);
     var ivvX = [];
     var ivvY = [];
-    for (day in relData) {
+    for (var day in relData) {
       if (day["oneMonth"]) {
         ivvY.push(day["oneMonth"]);
       }

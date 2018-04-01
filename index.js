@@ -94,8 +94,8 @@ function singleStockHelper(company,previousClosePrice,peRatio,gRes) {
 
 function compareTwoStocks(body,gRes) {
   var company1 = body.result.parameters.any1;
-  var company2 = body.result.parameters.any2;
-  console.log("company1 company2",company1,company2);
+  var company2 = body.result.parameters.any2[0];
+  console.log(company1,company2);
   var performance1 = 0;
   var performance2 = 0;
   var options1 = {
@@ -127,10 +127,10 @@ function twoStocksHelper(company1,company2,performance1,performance2,gRes) {
        useCache: 'true'
      }
   };
-  request(options2, function (error2, response2, body2) {
-    body2 = JSON.parse(body2);
-    console.log("body2",body2);
-    performance2 =  (body2.oneDay * 100).toFixed(2);
+  request(options2, function (error, response, body) {
+    body = JSON.parse(body);
+    console.log("body2",body);
+    performance2 =  (body.oneDay * 100).toFixed(2);
     console.log("performance2",performance2);
     var msg = "";
     if(performance2 > performance1){

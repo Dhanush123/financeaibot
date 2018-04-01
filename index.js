@@ -278,8 +278,8 @@ function listStocksHelper(gRes) {
     var stocksY = [];
     console.log("data",data);
     for(var i = 0; i < data.length; i++) {
-      stocksX.push(data[i]["stock"]);
-      stocksY.push(data[i]["quantity"]);
+      stocksX.push(data[i][0]);
+      stocksY.push(data[i][1]);
     }
     var stocksData = [
       {

@@ -103,10 +103,10 @@ function compareTwoStocks(body,gRes) {
       var performance2 =  (body2.oneDay * 100).toFixed(2);
       var msg = "";
       if(performance2 > performance1){
-        msg = company2 + " at " + performace2 +"%" + " is doing better than " + company1 + " by " + (performance2-performance1) + "%.";
+        msg = company2 + " at " + performance2 +"%" + " is doing better than " + company1 + " by " + (performance2-performance1) + "%.";
       }
       else {
-        msg = company1 + " at " + performace1 +"%" + " is doing better than " + company2 + " by " + (performance1-performance2) + "%.";
+        msg = company1 + " at " + performance1 +"%" + " is doing better than " + company2 + " by " + (performance1-performance2) + "%.";
       }
       return gRes.json({
         speech: msg,

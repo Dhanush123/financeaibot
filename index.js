@@ -172,13 +172,15 @@ function hypotheticalPortfolio(body, gRes) {
   };
   request(options, function (error, response, body) {
     body = JSON.parse(body);
-    console.log("portfolios",body.resultMap["PORTFOLIOS"]);
+    console.log("portfolios",JSON.stringify(body.resultMap["PORTFOLIOS"][0]));
     var countries = body.resultMap["PORTFOLIOS"][0].portfolios[0].exposures.bespokeBreakdowns.country; //this is an array
     var sectors = body.resultMap["PORTFOLIOS"][0].portfolios[0].exposures.sectors; ///this is an array
     var countriesX = [];
     var countriesY = [];
     var sectorsX = [];
     var sectorsY = [];
+    console.log("countries",countries);
+    console.log("sectors",sectors);
     for(var i = 0; i < countries.length; i++) {
       countriesX.push(countries[i].name);
       countriesY.push(countries[i].y);

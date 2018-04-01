@@ -3,12 +3,13 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const request = require('request');
 const plotly = require('plotly')("dhanush123", "gVZtNUCSRa0ejAf5SUfM");
+var admin = require('firebase-admin');
 
 var serviceAccount = require('./financeaifb.json');
-admin.initializeApp({
-  credential: admin.credential.cert(serviceAccount),
-  databaseURL: 'https://financeai-199808.firebaseio.com'
-});
+// admin.initializeApp({
+//   credential: admin.credential.cert(serviceAccount),
+//   databaseURL: 'https://financeai-199808.firebaseio.com'
+// });
 var db = admin.database();
 var ref = db.ref("/stocks/");
 
@@ -300,5 +301,9 @@ function removeStockPortfolio(stockname,gRes) {
 }
 
 server.listen((process.env.PORT || 8000), function () {
+  admin.initializeApp({
+    credential: admin.credential.cert(serviceAccount),
+    databaseURL: 'https://financeai-199808.firebaseio.com'
+  });
   console.log('Server listening');
 });

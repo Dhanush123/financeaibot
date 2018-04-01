@@ -172,7 +172,7 @@ function hypotheticalPortfolio(body, gRes) {
   };
   request(options, function (error, response, body) {
     body = JSON.parse(body);
-    console.log("portfolios",JSON.stringify(body.resultMap["PORTFOLIOS"][0]));
+    console.log("portfolios",JSON.stringify(body.resultMap["PORTFOLIOS"][0].portfolios[0].exposures));
     var countries = body.resultMap["PORTFOLIOS"][0].portfolios[0].exposures.bespokeBreakdowns.country; //this is an array
     var sectors = body.resultMap["PORTFOLIOS"][0].portfolios[0].exposures.sectors; ///this is an array
     var countriesX = [];

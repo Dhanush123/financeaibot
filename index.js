@@ -282,7 +282,7 @@ function updateStockPortfolio(stockname, quant,gRes) {
         snapshot.forEach(function(childSnapshot) {
             let data = childSnapshot.val();
             if(stockname == data.stock) {
-                stockref.set({
+                stockref.update({
                     stock: stockname,
                     quantity: parseInt(quant) + parseInt(data.quantity)
                 });

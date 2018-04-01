@@ -4,6 +4,13 @@ const bodyParser = require('body-parser');
 const request = require('request');
 const plotly = require('plotly')("dhanush123", "gVZtNUCSRa0ejAf5SUfM");
 
+var serviceAccount = require('./financeaifb.json');
+admin.initializeApp({
+  credential: admin.credential.cert(serviceAccount),
+  databaseURL: 'https://financeai-199808.firebaseio.com'
+});
+var db = admin.database();
+var ref = db.ref("/stocks/");
 
 const server = express();
 server.use(bodyParser.json());
@@ -19,6 +26,25 @@ server.post('/', function (req, res) {
   }
   else if (req.body.result.action == 'hypotheticalPortfolio') {
     hypotheticalPortfolio(req.body,res);
+  }
+  else if (req.body.result.action == 'addStockPortfolio') {
+    addStockPortfolio(req.body.result.parameters.any,req.body.result.parameters.number,res);
+  }
+  else if (req.body.result.action == 'listStocksPortfolio') {
+    (async function test(){
+    	let data = await listStocksPortfolio();
+      var msg = "Your portfolio currently contains: " + data;
+      return res.json({
+        speech: msg,
+        displayText: msg
+      });
+    })();
+  }
+  else if (req.body.result.action == 'removeStockPortfolio') {
+    removeStockPortfolio(req.body.result.parameters.any,res);
+  }
+  else if (req.body.result.action == 'updateStockPortfolio') {
+    updateStockPortfolio(req.body.result.parameters.any,req.body.result.parameters.number,res);
   }
   else {
     var speech = "An error has occured...";
@@ -221,6 +247,55 @@ function hypotheticalPortfolio(body, gRes) {
         });
       });
     });
+  });
+}
+
+function addStockPortfolio(stockname, quant, gRes) {
+	var stockref = ref.child(stockname);
+	stockref.set({
+		stock: stockname,
+		quantity: quant
+	})
+  var msg = quant + " " + stockname + " shares added to your portfolio!";
+  return gRes.json({
+    speech: msg,
+    displayText: msg
+  });
+}
+
+// read all stocks in database and output key-value pairs of strings/numbers
+function listStocksPortfolio() {
+	return new Promise(resolve => {
+		ref.once('value', function(snapshot) {
+			resolve(snapshot.val());
+		})
+	});
+}
+
+// update: update quantity of stock
+function updateStockPortfolio(stockname, quant,gRes) {
+	var stockref = ref.child(stockname);
+	stockref.set({
+		stock: stockname,
+		quantity: quant
+	})
+  var msg = quant + " " + stockname + " shares added to your portfolio!";
+  return gRes.json({
+    speech: msg,
+    displayText: msg
+  });
+}
+
+// delete: delete field
+function removeStockPortfolio(stockname,gRes) {
+	var stockref = ref.child(stockname);
+	let updates = {};
+	updates['/stocks/' + stockname] = {}
+	db.ref().update(updates);
+  var msg = stockname + " removed from your portfolio!";
+  return gRes.json({
+    speech: msg,
+    displayText: msg
   });
 }
 

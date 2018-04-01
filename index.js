@@ -34,7 +34,7 @@ server.post('/', function (req, res) {
   else if (req.body.result.action == 'listStocksPortfolio') {
     (async function test(){
     	let data = await listStocksPortfolio();
-      var msg = "Your portfolio currently contains: " + data;
+      var msg = "Your portfolio currently contains: " + JSON.stringify(data);
       return res.json({
         speech: msg,
         displayText: msg

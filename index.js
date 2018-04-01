@@ -255,7 +255,7 @@ function addStockPortfolio(stockname, quant, gRes) {
 	var stockref = ref.child(stockname);
 	stockref.set({
 		stock: stockname,
-		quantity: quant
+		quantity: parseInt(quant)
 	})
   var msg = quant + " " + stockname + " shares added to your portfolio!";
   return gRes.json({
@@ -284,7 +284,7 @@ function updateStockPortfolio(stockname, quant,gRes) {
             if(stockname == data.stock) {
                 stockref.set({
                     stock: stockname,
-                    quantity: quant + data.quantity
+                    quantity: parseInt(quant) + parseInt(data.quantity)
                 });
                 var msg = quant + " " + stockname + " shares added to your portfolio!";
                 return gRes.json({

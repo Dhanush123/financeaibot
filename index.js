@@ -7,7 +7,8 @@ const server = express();
 server.use(bodyParser.json());
 
 server.post('/', function (req, res) {
-  console.log('webhook request:',req.body);
+  console.log("in server...");
+  // console.log('webhook request:',req.body);
   if (req.body.result.action == 'getSingleStock') {
     getSingleStock(req.body,res);
   }
@@ -29,6 +30,7 @@ function getSingleStock (body, gRes) {
 
   request(options, function (error, response, body) {
     body = JSON.parse(body);
+    console.log("1st single stock call",body);
     var peRatio = body.resultMap.SEARCH_RESULTS[0].resultList[1].peRatio;
     var previousClosePrice = body.resultMap.SEARCH_RESULTS[0].resultList[1].previousClosePrice;
     console.log("peRatio",peRatio);
